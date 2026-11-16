@@ -1,0 +1,35 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/cart/:path*",
+      "destination": "/cart.json"
+    },
+    {
+      "source": "/cart.json",
+      "destination": "/cart.json"
+    },
+    {
+      "source": "/cdn/shop/videos/:path*",
+      "destination": "https://cdn.shopify.com/videos/:path*"
+    },
+    {
+      "source": "/cdn/shop/files/:path*",
+      "destination": "https://cdn.shopify.com/s/files/1/0550/0003/9638/files/:path*"
+    },
+    {
+      "source": "/cdn/shop/t/38/assets/:path*",
+      "destination": "https://cdn.shopify.com/s/files/1/0550/0003/9638/t/38/assets/:path*"
+    },
+    {
+      "source": "/cdn/shop/articles/:path*",
+      "destination": "https://cdn.shopify.com/s/files/1/0550/0003/9638/articles/:path*"
+    },
+    {
+      "source": "/cdn/shop/:path*",
+      "destination": "https://cdn.shopify.com/:path*"
+    }
+  ]
+}

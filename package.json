@@ -2,8 +2,8 @@
   "name": "srsti-replica",
   "version": "1.0.0",
   "description": "Pixel-perfect replica of SRSTI with exact animations, typography, and assets",
-  "main": "server.cjs",
   "scripts": {
+    "build": "echo 'Static build ready'",
     "start": "node server.cjs",
     "serve": "node server.cjs"
   },

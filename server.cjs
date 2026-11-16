@@ -5,7 +5,7 @@ const path = require('path');
 const url = require('url');
 
 const PORT = process.env.PORT || 3000;
-const ROOT = __dirname;
+const ROOT = fs.existsSync(path.join(__dirname, 'index.html')) ? __dirname : process.cwd();
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',

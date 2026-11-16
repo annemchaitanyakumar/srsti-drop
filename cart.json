@@ -1,0 +1,14 @@
+{
+  "token": "srsti_mock_token_12345",
+  "note": null,
+  "attributes": {},
+  "original_total_price": 0,
+  "total_price": 0,
+  "total_discount": 0,
+  "total_weight": 0,
+  "item_count": 0,
+  "items": [],
+  "requires_shipping": false,
+  "currency": "USD",
+  "items_subtotal_price": 0
+}

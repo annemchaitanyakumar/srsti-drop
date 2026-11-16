@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body { margin: 0; background: #000; display: flex; flex-direction: column; align-items: center; }
+  video { width: 100vw; height: 100vh; object-fit: contain; }
+</style>
+</head>
+<body>
+  <video id="v" src="/assets/dribbble_ref.mp4" muted autoplay></video>
+  <script>
+    const v = document.getElementById('v');
+    const params = new URLSearchParams(window.location.search);
+    const t = parseFloat(params.get('t') || '1.0');
+    v.addEventListener('loadeddata', () => {
+      v.currentTime = t;
+      v.pause();
+    });
+  </script>
+</body>
+</html>
