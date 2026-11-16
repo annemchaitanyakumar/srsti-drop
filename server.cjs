@@ -41,7 +41,7 @@ function proxyShopify(targetUrl, req, res) {
   const proxyReq = https.request(options, (proxyRes) => {
     const resHeaders = { ...proxyRes.headers };
     resHeaders['access-control-allow-origin'] = '*';
-    resHeaders['cache-control'] = 'public, max-age=86400';
+    resHeaders['cache-control'] = 'no-cache, must-revalidate';
     res.writeHead(proxyRes.statusCode, resHeaders);
     proxyRes.pipe(res);
   });
@@ -136,6 +136,15 @@ const server = http.createServer((req, res) => {
     isProductImage = true;
   } else if (reqPath.includes('Vertical_b4a7a293') || reqPath.includes('recipe_sear')) {
     resolvedPath = path.join(ROOT, 'assets', 'images', 'recipe_sear_srsti.jpg');
+    isProductImage = true;
+  } else if (reqPath.includes('Original-Mayo') || reqPath.includes('orig_mayo') || reqPath.includes('ORIGINAL_MAYO') || reqPath.includes('Original_Squeeze') || reqPath.includes('Classic_Jar')) {
+    resolvedPath = path.join(ROOT, 'assets', 'images', 'orig_mayo_srsti.jpg');
+    isProductImage = true;
+  } else if (reqPath.includes('Fancy-Mayo') || reqPath.includes('fancy_mayo') || reqPath.includes('FANCY_MAYO') || reqPath.includes('Fancy_Squeeze') || reqPath.includes('Fancy_Jar')) {
+    resolvedPath = path.join(ROOT, 'assets', 'images', 'fancy_mayo_srsti.jpg');
+    isProductImage = true;
+  } else if (reqPath.includes('Garlic-Aioli') || reqPath.includes('garlic_aioli') || reqPath.includes('GARLIC_AIOLI') || reqPath.includes('Aioli_Squeeze') || reqPath.includes('Aioli_Jar')) {
+    resolvedPath = path.join(ROOT, 'assets', 'images', 'garlic_aioli_srsti.jpg');
     isProductImage = true;
   }
 

@@ -32,10 +32,13 @@
 // SRSTI Logo & Branding Enforcer
 (function() {
   function enforceSrsti() {
-    document.querySelectorAll('a[href="/"] svg, .logo-wobble svg, svg-icon[icon="logo"] svg').forEach(svg => {
-      if (svg.getAttribute('data-srsti-applied') === 'true') return;
-      svg.setAttribute('data-srsti-applied', 'true');
+    const logoSelectors = 'a[href="/"].mc svg, a[href="/"] > span > svg, .logo-wobble svg, svg-icon[icon="logo"] svg, footer svg-icon svg';
+    document.querySelectorAll(logoSelectors).forEach(svg => {
+      const hasOnlySrstiText = svg.querySelector('text') && svg.textContent.trim() === 'SRSTI' && !svg.querySelector('path');
+      if (hasOnlySrstiText) return;
       svg.setAttribute('viewBox', '0 0 132 36');
+      svg.setAttribute('width', '132');
+      svg.setAttribute('height', '36');
       svg.innerHTML = '<text x="1" y="30" font-family="\'ITC Garamond Condensed\', serif" font-weight="900" font-size="44" textLength="130" lengthAdjust="spacingAndGlyphs" stroke="currentColor" stroke-width="1.2" paint-order="stroke fill" fill="currentColor">SRSTI</text>';
     });
     document.querySelectorAll('[aria-label*="\x47\x72\x61\x7a\x61"], [aria-label*="\x67\x72\x61\x7a\x61"]').forEach(el => {
@@ -47,6 +50,7 @@
     document.addEventListener('DOMContentLoaded', enforceSrsti);
   }
   window.addEventListener('load', enforceSrsti);
+  setInterval(enforceSrsti, 200);
   new MutationObserver(enforceSrsti).observe(document.documentElement, { childList: true, subtree: true });
 })();
 </script>
@@ -2467,7 +2471,7 @@ window.refillData = {
   <script src="/assets/lottie-player.js"></script>
 
   <!-- Exact SRSTI Bundle & Index Scripts -->
-  <script src="/assets/bundle.js?v=20261115_srsti_v3"></script>
+  <script src="/assets/bundle.js?v=20261116_srsti_v10"></script>
   <script src="/assets/js-index.static.js"></script>
 </body>
 </html>
