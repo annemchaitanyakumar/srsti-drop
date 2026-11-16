@@ -1,4 +1,4 @@
-# SRSTI Exact Replica
+# SRSTI 
 
 A pixel-perfect, multi-page replica of **SRSTI** with exact animations, typography, color palette, responsive design, and micro-interactions.
 
