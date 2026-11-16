@@ -58,6 +58,27 @@ function proxyShopify(targetUrl, req, res) {
 }
 
 const server = http.createServer((req, res) => {
+  if (req.url === '/api/save-cutout' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const { name, dataUrl } = JSON.parse(body);
+        const base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
+        const buf = Buffer.from(base64Data, 'base64');
+        fs.writeFileSync(path.join(ROOT, 'assets', 'images', name), buf);
+        console.log('Saved cutout bottle:', name, buf.length, 'bytes');
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, size: buf.length }));
+      } catch (err) {
+        console.error('Save cutout error:', err.message);
+        res.writeHead(500);
+        res.end(err.message);
+      }
+    });
+    return;
+  }
+
   let reqPath = decodeURIComponent(req.url.split('?')[0]);
   if (reqPath === '/' || reqPath === '') reqPath = '/index.html';
 
@@ -104,6 +125,24 @@ const server = http.createServer((req, res) => {
   let resolvedPath = path.join(ROOT, cleanPath);
   let isProductImage = false;
   const lowerPath = reqPath.toLowerCase();
+
+  // If request is for a pure PNG or an existing file in assets/images, serve directly
+  if (lowerPath.includes('pure_') || lowerPath.includes('_png') || (lowerPath.startsWith('/assets/images/') && lowerPath.endsWith('.png') && fs.existsSync(resolvedPath))) {
+    // Serve local asset directly without interception!
+    const ext = path.extname(resolvedPath).toLowerCase();
+    const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+    try {
+      const data = fs.readFileSync(resolvedPath);
+      res.writeHead(200, {
+        'Content-Type': contentType,
+        'Access-Control-Allow-Origin': '*'
+      });
+      res.end(data);
+      return;
+    } catch (e) {
+      // fallback
+    }
+  }
 
   // 1. Mayo & Aioli (check first because filenames contain "Squeeze" like IMAGE1_Original-Mayo_Squeeze.jpg)
   if ((lowerPath.includes('original') || lowerPath.includes('orig')) && (lowerPath.includes('mayo') || lowerPath.includes('squeeze') || lowerPath.includes('jar')) || lowerPath.includes('classic_jar')) {
@@ -159,9 +198,23 @@ const server = http.createServer((req, res) => {
     resolvedPath = path.join(ROOT, 'assets', 'images', 'sizzle_srsti.jpg');
     isProductImage = true;
   }
-  // 10. Recipe photo
-  else if (lowerPath.includes('vertical_b4a7a293') || lowerPath.includes('recipe_sear')) {
+  // 10. Recipe & Article photos with prominent Graza bottles
+  else if (lowerPath.includes('image1_1') || lowerPath.includes('vertical_b4a7a293') || lowerPath.includes('recipe_sear')) {
     resolvedPath = path.join(ROOT, 'assets', 'images', 'recipe_sear_srsti.jpg');
+    isProductImage = true;
+  } else if (lowerPath.includes('screenshot_2024-09-20') || lowerPath.includes('skillet_4') || lowerPath.includes('soup_x400') || lowerPath.includes('garlic_bread_pasta')) {
+    resolvedPath = path.join(ROOT, 'assets', 'images', 'sizzle_srsti.jpg');
+    isProductImage = true;
+  } else if (lowerPath.includes('img_9435')) {
+    resolvedPath = path.join(ROOT, 'assets', 'images', 'garlic_aioli_srsti.jpg');
+    isProductImage = true;
+  } else if (lowerPath.includes('marg-tini') || lowerPath.includes('02_2_x400') || lowerPath.includes('02_1_x400') || lowerPath.includes('carciofo')) {
+    resolvedPath = path.join(ROOT, 'assets', 'images', 'driz_srsti.jpg');
+    isProductImage = true;
+  }
+  // 11. Instagram marquee customer photos
+  else if (lowerPath.includes('tavoletti') || lowerPath.includes('ce20c6df') || lowerPath.includes('screen_shot_2024-05-06') || lowerPath.includes('img_8501') || lowerPath.includes('275968465') || lowerPath.includes('round_2_7_1') || lowerPath.includes('284618073') || lowerPath.includes('img_1676') || lowerPath.includes('img_0345') || lowerPath.includes('332723317')) {
+    resolvedPath = path.join(ROOT, 'assets', 'images', 'homepage_feature_srsti.jpg');
     isProductImage = true;
   }
 
