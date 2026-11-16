@@ -503,10 +503,62 @@
       font-size: 36px;
     }
   }
+
+  /* Frosted Glass Seam Blurs between sections - preserving 100% original backgrounds */
+  .hero-bottom-glass-blur {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    pointer-events: none;
+    z-index: 2;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 100%);
+  }
+
+  #shopify-section-template--16889120686294__announcement_bar_pTYkYK {
+    position: relative;
+    overflow: visible;
+  }
+  .seam-blur-top {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    right: 0;
+    height: 80px;
+    pointer-events: none;
+    z-index: 25;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%);
+  }
+
+  #shopify-section-template--16889120686294__image_text_carousel_9KrBRa {
+    position: relative;
+    overflow: visible;
+  }
+  .seam-blur-bottom {
+    position: absolute;
+    top: -35px;
+    left: 0;
+    right: 0;
+    height: 70px;
+    pointer-events: none;
+    z-index: 25;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%);
+  }
 </style>
 
 <div class="water-hero-container">
   <canvas id="water" aria-hidden="true"></canvas>
+  <div class="hero-bottom-glass-blur" aria-hidden="true"></div>
 
   <div class="water-hero-overlay">
     <div class="container w-full">
@@ -660,6 +712,7 @@ void main(){
 </div>
 
 <div id="shopify-section-template--16889120686294__announcement_bar_pTYkYK" class="shopify-section">
+  <div class="seam-blur-top" aria-hidden="true"></div>
 
 
 <div id="announcement-bar" vue class="hidden lg:block">
@@ -680,7 +733,8 @@ void main(){
 '></announcement-bar>
 </div>
 
-</div><section id="shopify-section-template--16889120686294__image_text_carousel_9KrBRa" class="shopify-section vue-section"><div
+</div><section id="shopify-section-template--16889120686294__image_text_carousel_9KrBRa" class="shopify-section vue-section">
+  <div class="seam-blur-bottom" aria-hidden="true"></div><div
   id="image-text-carousel"
   class=" border-t--dashed"
   vue
