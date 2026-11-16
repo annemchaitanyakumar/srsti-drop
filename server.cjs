@@ -103,48 +103,65 @@ const server = http.createServer((req, res) => {
   // 2. Intercept and route product images to local SRSTI images
   let resolvedPath = path.join(ROOT, cleanPath);
   let isProductImage = false;
+  const lowerPath = reqPath.toLowerCase();
 
-  if (reqPath.includes('driz_450x') || reqPath.includes('driz.jpg') || (reqPath.includes('drizzle') && (reqPath.endsWith('.jpg') || reqPath.endsWith('.png')) && !reqPath.includes('can'))) {
-    resolvedPath = path.join(ROOT, 'assets', 'images', 'driz_srsti.jpg');
-    isProductImage = true;
-  } else if (reqPath.includes('sizzle750ml') || reqPath.includes('sizzle_450x') || (reqPath.includes('sizzle') && (reqPath.endsWith('.jpg') || reqPath.endsWith('.png')) && !reqPath.includes('can') && !reqPath.includes('glass') && !reqPath.includes('box'))) {
-    resolvedPath = path.join(ROOT, 'assets', 'images', 'sizzle_srsti.jpg');
-    isProductImage = true;
-  } else if (reqPath.includes('squeeze_') || reqPath.includes('squeeze_450x')) {
-    resolvedPath = path.join(ROOT, 'assets', 'images', 'squeeze_srsti.jpg');
-    isProductImage = true;
-  } else if (reqPath.includes('duo-cans') || reqPath.includes('duo_cans')) {
-    resolvedPath = path.join(ROOT, 'assets', 'images', 'duo_cans_srsti.jpg');
-    isProductImage = true;
-  } else if (reqPath.includes('Duo-Glass') || reqPath.includes('duo-glass')) {
-    resolvedPath = path.join(ROOT, 'assets', 'images', 'duo_glass_srsti.jpg');
-    isProductImage = true;
-  } else if (reqPath.includes('Trio_PDP_4') || reqPath.includes('trio_srsti') || reqPath.includes('Trio_Sizzle')) {
-    resolvedPath = path.join(ROOT, 'assets', 'images', 'trio_srsti.jpg');
-    isProductImage = true;
-  } else if (reqPath.includes('Homepage_Feature') || reqPath.includes('homepage_feature')) {
-    resolvedPath = path.join(ROOT, 'assets', 'images', 'homepage_feature_srsti.jpg');
-    isProductImage = true;
-  } else if (reqPath.includes('Resize12') || reqPath.includes('Resize24')) {
-    resolvedPath = path.join(ROOT, 'assets', 'images', 'duo_cans_srsti.jpg');
-    isProductImage = true;
-  } else if (reqPath.includes('Resize13') || reqPath.includes('Resize15')) {
-    resolvedPath = path.join(ROOT, 'assets', 'images', 'driz_srsti.jpg');
-    isProductImage = true;
-  } else if (reqPath.includes('Resize14') || reqPath.includes('Resize22')) {
-    resolvedPath = path.join(ROOT, 'assets', 'images', 'sizzle_srsti.jpg');
-    isProductImage = true;
-  } else if (reqPath.includes('Vertical_b4a7a293') || reqPath.includes('recipe_sear')) {
-    resolvedPath = path.join(ROOT, 'assets', 'images', 'recipe_sear_srsti.jpg');
-    isProductImage = true;
-  } else if (reqPath.includes('Original-Mayo') || reqPath.includes('orig_mayo') || reqPath.includes('ORIGINAL_MAYO') || reqPath.includes('Original_Squeeze') || reqPath.includes('Classic_Jar')) {
+  // 1. Mayo & Aioli (check first because filenames contain "Squeeze" like IMAGE1_Original-Mayo_Squeeze.jpg)
+  if ((lowerPath.includes('original') || lowerPath.includes('orig')) && (lowerPath.includes('mayo') || lowerPath.includes('squeeze') || lowerPath.includes('jar')) || lowerPath.includes('classic_jar')) {
     resolvedPath = path.join(ROOT, 'assets', 'images', 'orig_mayo_srsti.jpg');
     isProductImage = true;
-  } else if (reqPath.includes('Fancy-Mayo') || reqPath.includes('fancy_mayo') || reqPath.includes('FANCY_MAYO') || reqPath.includes('Fancy_Squeeze') || reqPath.includes('Fancy_Jar')) {
+  } else if (lowerPath.includes('fancy') && (lowerPath.includes('mayo') || lowerPath.includes('squeeze') || lowerPath.includes('jar'))) {
     resolvedPath = path.join(ROOT, 'assets', 'images', 'fancy_mayo_srsti.jpg');
     isProductImage = true;
-  } else if (reqPath.includes('Garlic-Aioli') || reqPath.includes('garlic_aioli') || reqPath.includes('GARLIC_AIOLI') || reqPath.includes('Aioli_Squeeze') || reqPath.includes('Aioli_Jar')) {
+  } else if ((lowerPath.includes('garlic') || lowerPath.includes('aioli')) && (lowerPath.includes('mayo') || lowerPath.includes('aioli') || lowerPath.includes('squeeze') || lowerPath.includes('jar'))) {
     resolvedPath = path.join(ROOT, 'assets', 'images', 'garlic_aioli_srsti.jpg');
+    isProductImage = true;
+  }
+  // 2. Drizzle bottle (match driz, drizzle - except cans)
+  else if ((lowerPath.includes('driz') || lowerPath.includes('drizzle')) && !lowerPath.includes('can') && !lowerPath.includes('glass')) {
+    resolvedPath = path.join(ROOT, 'assets', 'images', 'driz_srsti.jpg');
+    isProductImage = true;
+  }
+  // 3. Sizzle bottle
+  else if ((lowerPath.includes('sizzle') || lowerPath.includes('sizz')) && !lowerPath.includes('can') && !lowerPath.includes('glass') && !lowerPath.includes('box') && !lowerPath.includes('spray')) {
+    resolvedPath = path.join(ROOT, 'assets', 'images', 'sizzle_srsti.jpg');
+    isProductImage = true;
+  }
+  // 4. Frizzle / Squeeze bottle (High heat oil)
+  else if (lowerPath.includes('frizzle') || lowerPath.includes('squeeze') || lowerPath.includes('frizzlesqueeze')) {
+    resolvedPath = path.join(ROOT, 'assets', 'images', 'squeeze_srsti.jpg');
+    isProductImage = true;
+  }
+  // 5. Duo Cans
+  else if (lowerPath.includes('duo-can') || lowerPath.includes('duo_can') || lowerPath.includes('duocan') || lowerPath.includes('resize12') || lowerPath.includes('resize24')) {
+    resolvedPath = path.join(ROOT, 'assets', 'images', 'duo_cans_srsti.jpg');
+    isProductImage = true;
+  }
+  // 6. Duo Glass
+  else if (lowerPath.includes('duo-glass') || lowerPath.includes('duo_glass') || lowerPath.includes('duoglass') || lowerPath.includes('duo-glass_1')) {
+    resolvedPath = path.join(ROOT, 'assets', 'images', 'duo_glass_srsti.jpg');
+    isProductImage = true;
+  }
+  // 7. Trio
+  else if (lowerPath.includes('trio') && !lowerPath.includes('spray')) {
+    resolvedPath = path.join(ROOT, 'assets', 'images', 'trio_srsti.jpg');
+    isProductImage = true;
+  }
+  // 8. Homepage feature
+  else if (lowerPath.includes('homepage_feature') || lowerPath.includes('homepage-feature')) {
+    resolvedPath = path.join(ROOT, 'assets', 'images', 'homepage_feature_srsti.jpg');
+    isProductImage = true;
+  }
+  // 9. Resize variants
+  else if (lowerPath.includes('resize13') || lowerPath.includes('resize15')) {
+    resolvedPath = path.join(ROOT, 'assets', 'images', 'driz_srsti.jpg');
+    isProductImage = true;
+  } else if (lowerPath.includes('resize14') || lowerPath.includes('resize22')) {
+    resolvedPath = path.join(ROOT, 'assets', 'images', 'sizzle_srsti.jpg');
+    isProductImage = true;
+  }
+  // 10. Recipe photo
+  else if (lowerPath.includes('vertical_b4a7a293') || lowerPath.includes('recipe_sear')) {
+    resolvedPath = path.join(ROOT, 'assets', 'images', 'recipe_sear_srsti.jpg');
     isProductImage = true;
   }
 
