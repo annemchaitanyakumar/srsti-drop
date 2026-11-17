@@ -1,6 +1,6 @@
-# SRSTI 
+# SRSTI (Next.js)
 
-A pixel-perfect, multi-page replica of **SRSTI** with exact animations, typography, color palette, responsive design, and micro-interactions.
+A pixel-perfect, multi-page replica of **SRSTI** converted into a full-featured **Next.js (App Router)** project with exact animations, typography, color palette, responsive design, and micro-interactions.
 
 ## Features & Replicated Pages
 
@@ -13,44 +13,57 @@ A pixel-perfect, multi-page replica of **SRSTI** with exact animations, typograp
 
 ---
 
-### 2. Fully Replicated Pages & Routes
+### 2. Fully Replicated Next.js Pages & Routes
 
-The following pages are fully replicated with complete styles, interactive Vue components, and carousels:
+The following routes are fully rendered with complete styles, interactive Vue components, Next.js SSG/SSR, and carousels:
 
-- **Homepage** (`/` or `index.html`)
-- **Product Pages:**
-  - **"The Duo" (Sizzle & Drizzle Combo Pack):** [`/products/sizzle-drizzle-combo-pack`](file:///d:/Projects/----------------------------/products/sizzle-drizzle-combo-pack/index.html)
-  - **"Original" Olive Oil Mayo:** [`/products/original-mayo`](file:///d:/Projects/----------------------------/products/original-mayo/index.html)
-  - **Potato Chips:** [`/products/potato-chips`](file:///d:/Projects/----------------------------/products/potato-chips/index.html)
-  - **"The Trio":** [`/products/the-trio`](file:///d:/Projects/----------------------------/products/the-trio/index.html)
-  - **"Fancy" Mayo:** [`/products/fancy-mayo`](file:///d:/Projects/----------------------------/products/fancy-mayo/index.html)
-  - **Garlic Aioli:** [`/products/garlic-aioli`](file:///d:/Projects/----------------------------/products/garlic-aioli/index.html)
-- **Collections:**
-  - **Shop All:** [`/collections/all`](file:///d:/Projects/----------------------------/collections/all/index.html)
-  - **Olive Oil:** [`/collections/olive-oil`](file:///d:/Projects/----------------------------/collections/olive-oil/index.html)
-  - **Bundles:** [`/collections/bundles`](file:///d:/Projects/----------------------------/collections/bundles/index.html)
-  - **Gifts:** [`/collections/gifts`](file:///d:/Projects/----------------------------/collections/gifts/index.html)
-- **Content & Utility Pages:**
-  - **About Us:** [`/pages/about-us`](file:///d:/Projects/----------------------------/pages/about-us/index.html)
-  - **Subscribe & Save:** [`/pages/subscribe`](file:///d:/Projects/----------------------------/pages/subscribe/index.html)
-  - **Store Locator (Find Us):** [`/pages/store-locator`](file:///d:/Projects/----------------------------/pages/store-locator/index.html)
-  - **FAQs:** [`/pages/faqs`](file:///d:/Projects/----------------------------/pages/faqs/index.html)
-  - **Recipes Blog (The Glog):** [`/blogs/recipes`](file:///d:/Projects/----------------------------/blogs/recipes/index.html) & [`/pages/glog`](file:///d:/Projects/----------------------------/pages/glog/index.html)
+- **Homepage:** `/` (`src/app/page.tsx`)
+- **Product Pages:** (`src/app/products/[slug]/page.tsx`)
+  - **"The Duo" (Sizzle & Drizzle Combo Pack):** `/products/sizzle-drizzle-combo-pack`
+  - **"Original" Olive Oil Mayo:** `/products/original-mayo`
+  - **Potato Chips:** `/products/potato-chips`
+  - **"The Trio":** `/products/the-trio`
+  - **"Fancy" Mayo:** `/products/fancy-mayo`
+  - **Garlic Aioli:** `/products/garlic-aioli`
+  - **"Drizzle":** `/products/drizzle`
+  - **"Sizzle":** `/products/sizzle`
+  - **Refills, Cans & Sets:** `/products/drizzle-refill-can`, `/products/sizzle-refill-can`, `/products/duo-refill-can`, `/products/sizzle-bag-in-box`, `/products/the-starter-kit`, `/products/gift-set-drizzle-sizzle`, `/products/the-graza-tote`
+- **Collections:** (`src/app/collections/[slug]/page.tsx`)
+  - **Shop All:** `/collections/all`
+  - **Olive Oil:** `/collections/olive-oil`
+  - **Bundles:** `/collections/bundles`
+  - **Gifts:** `/collections/gifts`
+- **Content & Utility Pages:** (`src/app/pages/[slug]/page.tsx`)
+  - **About Us:** `/pages/about-us`
+  - **Subscribe & Save:** `/pages/subscribe`
+  - **Store Locator (Find Us):** `/pages/store-locator`
+  - **FAQs:** `/pages/faqs`
+  - **Recipes Blog (The Glog):** `/pages/glog` & `/blogs/recipes`
+- **API & Mock Routes:**
+  - **Cart JSON Endpoint:** `/cart.json` (`src/app/cart.json/route.ts`)
+  - **Cart Action Interceptors:** `/cart/add.js`, `/cart/update.js`, `/cart/change.js` (`src/app/cart/[...action]/route.ts`)
+  - **Transparent Shopify CDN & Local Asset Proxy:** `/cdn/shop/[...path]` (`src/app/cdn/shop/[...path]/route.ts`)
+  - **Cutout Saver:** `/api/save-cutout` (`src/app/api/save-cutout/route.ts`)
 
 ---
 
 ### 3. Exact Typography & Color System
-- **Fonts**: `GT Alpina Typewriter` (Light, Light Italic, Medium, Medium Italic), `ITC Garamond Condensed` (Regular, Italic), and `Apercu` (Bold) from local `.woff2` files in `assets/fonts/`.
-- **Colors**: Sourced directly from CSS variables (`--color-brand: #D1E030`, `--color-accent: #9EEF80`, `--color-secondary: #FBD535`, `--color-text: #3C422E`, `--color-background: #F6E6D9`, `--color-highlight: #FFF4EC`, `--color-stroke: #9FCD7A`).
+- **Fonts**: `GT Alpina Typewriter` (Light, Light Italic, Medium, Medium Italic), `ITC Garamond Condensed` (Regular, Italic), and `Apercu` (Bold) from local `.woff2` files in `public/assets/fonts/`.
+- **Colors**: Sourced directly from CSS variables (`--color-brand: #b9d6a8` [Primary Homepage Sage/Olive Green], `--color-accent: #9EEF80`, `--color-secondary: #FBD535`, `--color-text: #3C422E`, `--color-background: #F6E6D9`, `--color-highlight: #FFF4EC`, `--color-stroke: #9FCD7A`).
 
 ---
 
 ## How to Run
 
-### Local Server (Recommended)
+### Development Mode
 ```bash
-npm start
+npm run dev
 # Server runs on http://localhost:3000/
 ```
 
-# srsti-drop
+### Production Build & Serve
+```bash
+npm run build
+npm start
+# Server runs on http://localhost:3000/
+```
